@@ -1,21 +1,18 @@
-//let url = "https://weeklyadjusteddata.s3.us-west-1.amazonaws.com/alpha_vantage_data.json";
 let url = "http://127.0.0.1:5000/api/stocks"
 var dataSet;
-//const sqlite3 = require('sqlite3').verbose();
-//const db = new sqlite3.Database('stock.db');
 
 function init() {
     d3.json(url).then(function(data) {
         dataSet = data;
-        bar("SPY", data);
+        bar("AGG", data);
 
-        //metadataDisplay("SPY", data);
-        console.log(data);
-        lineChart("SPY", data);
-        CandlestickChart("SPY", data);
+        metadataDisplay("AGG", data);
+
+        lineChart("AGG", data);
+        CandlestickChart("AGG", data);
         // Populate the dropdown menu
         var titles = Object.keys(data);
-        console.log(titles);
+
         let dropdownMenu = d3.select("#selDataset");
         titles.forEach(function(name) {
             dropdownMenu.append("option").text(name).property("value", name);
@@ -28,10 +25,8 @@ function lineChart(id, data) {
 // Need to specify which ID is being using and pull data only for that ID.
     idData = data[id]["Weekly Adjusted Time Series"]
     var dates = Object.keys(idData);
-    console.log(dates)
 
-    var closePrices = Object.values(idData).map(price => price["5. adjusted close"]);
-    console.log(closePrices);
+    var closePrices = Object.values(idData).map(price => price["7. dividend amount"]);
 
     var trace = {
         x: dates,
@@ -41,12 +36,12 @@ function lineChart(id, data) {
 
     var ldata = [trace];
     var layout = {
-        title: `${id} ETF Weekly Adjusted Closing Prices`,
+        title: `${id} ETF Dividend Amounts`,
         xaxis: {
             title: "Dates"
         },
         yaxis: {
-            title: "Adjusted Close Prices"
+            title: "Dividend Amounts"
         }
     };
     Plotly.newPlot("line", ldata, layout);
@@ -56,14 +51,14 @@ function CandlestickChart(id, data) {
     // Need to specify which ID is being using and pull data only for that ID.
         idData = data[id]["Weekly Adjusted Time Series"]
         var dates = Object.keys(idData);
-        console.log(dates)
+
         var open = Object.values(idData).map(open => open["1. open"]);
         var close = Object.values(idData).map(close => close["4. close"]);
         var high = Object.values(idData).map(high => high["2. high"]);
         var low = Object.values(idData).map(low => low["3. low"]);
     
         
-        console.log(open);
+ 
     
         var trace = {
             x: dates,
@@ -95,10 +90,7 @@ function bar(id, data) {
     idData = data[id]["Weekly Adjusted Time Series"]
     var dates = Object.keys(idData);
     var volume = Object.values(idData).map(volume => volume["6. volume"]);
-    console.log(dates);
-    console.log(volume);
-    
-    //const bchart = document.getElementById("bar")//.getContext("2d");
+
     
     const canvas = document.getElementById("barChart");
     
@@ -139,7 +131,46 @@ function bar(id, data) {
     })
 };
 
+var sectors = {
+    "VNQ": "Real Estate",
+    "SPY": "Various",
+    "QQQ": "Technology",
+    "IWM": "Various",
+    "EEM": "Emerging Markets",
+    "AGG": "Bonds",
+    "VTI": "Various",
+    "GLD": "Gold",
+    "SLV": "Silver",
+    "DBC": "Commodities"
 
+}
+
+var tracking = {
+    "VNQ": "Real Estate Investment Trusts",
+    "SPY": "the S&P 500 Index",
+    "QQQ": "the NASDAQ-100 Index",
+    "IWM": "the Russell 2000 Index",
+    "EEM": "Companies based in Emerging-market countries",
+    "AGG": "U.S. government bonds, corporate bonds, and other fixed-income assets",
+    "VTI": "the Entire stock market",
+    "GLD": "the Price of Gold",
+    "SLV": "the Price of Silver",
+    "DBC": "the Performance of various commodities (energy, agriculture, metals)"
+}
+
+function metadataDisplay(id, data){
+    var metadata = d3.select("#sample-metadata")
+    
+    console.log(sectors)
+    console.log(sectors[id])
+    metadata.html("");
+
+    if (sectors[id]) {
+        metadata.append('h6').html(`<strong>${id} tracks ${tracking[id]}<strong>`);
+        metadata.append('h6').text(`Sector: ${sectors[id]}`);
+    };
+
+}
 
 
 d3.select("#selDataset").on("change", optionChanged);
@@ -147,10 +178,9 @@ d3.select("#selDataset").on("change", optionChanged);
 function optionChanged() {
     let dropdownMenu = d3.select("#selDataset");
     let id = dropdownMenu.property("value");
-    //console.log(id);
-    //hbar(id, dataSet);
+
     bar(id, dataSet);
-    //metadataDisplay(id, dataSet)
+    metadataDisplay(id, dataSet)
     lineChart(id, dataSet);
     CandlestickChart(id, dataSet);
     
