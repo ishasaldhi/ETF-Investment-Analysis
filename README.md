@@ -5,8 +5,17 @@ Analyzing the performance of the stock market to identify trends and focusing on
 
 ## Focus Questions
 * How has the total return of ETFs changed over years?
-* What are the yields of the ETFs and how have they changed over years?
-* How have investor flows changed over the years? Do changes in investment have a correlation to any events?
+* Which sector has performed the best over time?
+* How stable has a fund’s performance been?
+* How many dividends have been received by investors?
+
+## Components
+* Creating a Python Flask-powered App
+* Creating a database in Mongodb based on an API
+* Connecting Mongodb to Flask app and jsonifying data
+* Creating an HTML and JavaScript frontend
+
+
 
 ## Datasets
 * Alpha Vantage adjusted API
