@@ -1,7 +1,7 @@
 # ETF Investment Analysis
 
 ## Overview
-Analyzing the performance of the stock market to identify trends and focusing on risk assessments. 
+In this project, I obtained financial data focusing on ETFs, Exchange-Traded Funds, in order to determine the best sectors for people to invest in. I chose ETFs due to their features including diversification, transparency, dividends, and lower costs. I analyzed the performance of the stock market to identify trends and make risk assessments. 
 
 ## Focus Questions
 * How has the total return of ETFs changed over years?
@@ -15,7 +15,10 @@ Analyzing the performance of the stock market to identify trends and focusing on
 * Connecting Mongodb to Flask app and jsonifying data
 * Creating an HTML and JavaScript frontend
 
-
-
 ## Datasets
-* Alpha Vantage adjusted API
+* Alpha Vantage adjusted Stock API
+
+## Conclusion
+* Most ETFs that mainly consisted of only one sector were very turbulent and risky.
+* ETFs that incorporate various sectors showed the most stablilty.
+* One sector that proved to be an exception was technology which showed a higher range for growth.
