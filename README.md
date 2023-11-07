@@ -1,4 +1,4 @@
-# Project-3
+# ETF Investment Analysis
 
 ## Overview
 Analyzing the performance of the stock market to identify trends and focusing on risk assessments. 
